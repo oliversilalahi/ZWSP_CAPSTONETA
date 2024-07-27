@@ -1,0 +1,47 @@
+services:
+  zwsp_sender_api:
+    # depends_on:
+    #   - hivemq_mqtt
+    build:
+      context: .
+      dockerfile: Dockerfile.sender
+    container_name: zwsp_sender_api
+    hostname: zwsp_sender_api
+    network_mode: host
+    # networks:
+    #   - zwsp_coder_network
+    ports:
+      - 8080:8080
+    deploy:
+      restart_policy:
+        condition: on-failure
+
+  zwsp_receiver_api:
+    # depends_on:
+    #   - hivemq_mqtt
+    build:
+      context: .
+      dockerfile: Dockerfile.receiver
+    container_name: zwsp_receiver_api
+    hostname: zwsp_receiver_api
+    network_mode: host
+    # networks:
+    #   - zwsp_coder_network
+    ports:
+      - 8000:8000
+    deploy:
+      restart_policy:
+        condition: on-failure
+
+  # hivemq_mqtt:
+  #   image: hivemq/hivemq-edge
+  #   container_name: hivemq-edge
+  #   # networks:
+  #   #   - zwsp_coder_network
+  #   network_mode: host
+  #   ports:
+  #     - 1883:1883
+  #     - 8081:8080
+# networks:
+#   zwsp_coder_network:
+#     driver: bridge
